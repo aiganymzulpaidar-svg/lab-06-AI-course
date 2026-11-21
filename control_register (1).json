@@ -1,0 +1,52 @@
+{
+  "harness_controls": [
+    "validate_input",
+    "blind",
+    "refuse",
+    "log",
+    "escalate"
+  ],
+  "format_problems": [],
+  "entries": [
+    {
+      "control": "validate_input",
+      "principle": "Robustness, security and safety",
+      "principle_source": "OECD Recommendation on Artificial Intelligence, OECD/LEGAL/0449 (adopted 22 May 2019, amended 3 May 2024), principle 1.4 (non-binding)",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence' (Article 31: in force after sixty calendar days from first official publication, 18 November 2025)",
+      "provision": "Article 18(1)(1)-(2): risk management over the whole life cycle, including risks under foreseeable misuse",
+      "why_here": "Part 4 sends impossible values (GPA 9.9, exam score -5), which the bare agent screens like any other profile, so the harness refuses them before the model sees them; the control does nothing about the measured divergence."
+    },
+    {
+      "control": "blind",
+      "principle": "Fairness and non-discrimination",
+      "principle_source": "UNESCO Recommendation on the Ethics of Artificial Intelligence, adopted 23 November 2021, section III.2, principle 'Fairness and non-discrimination' (non-binding, applied voluntarily by Member States)",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'",
+      "provision": "Article 6 (fairness and equality): any discrimination on grounds of origin, social, official and property status and the further grounds listed in the article is to be excluded",
+      "why_here": "Part 1 found no flip rate above its floor, but female-coded names were shortlisted in 4 pairs against 0 and flagship universities scored 2.5 points higher (sign test p 0.002), so name and university are removed from the model's input instead of trusting a count of 40 pairs."
+    },
+    {
+      "control": "refuse",
+      "principle": "Privacy and data protection (consent and purpose limitation)",
+      "principle_source": "OECD/LEGAL/0449 principle 1.2(a) (privacy and data protection as part of human rights and democratic values) and UNESCO Recommendation 2021, section III.2, principle 'Right to privacy and data protection'",
+      "instrument": "Law of the Republic of Kazakhstan No. 94-V of 21 May 2013 'On Personal Data and their Protection'",
+      "provision": "Article 19-1(1): automated processing that changes or ends a person's rights is prohibited without the subject's consent; Article 7(1): processing requires consent of the person or the legal representative (basis for refusing a minor)",
+      "why_here": "The bare pipeline screened a 17-year-old, an applicant without consent and a purpose it must never serve (ranking by ethnicity) without a murmur, so the harness refuses them with a reason code and no model call; my own rule also refuses a name field that holds an instruction."
+    },
+    {
+      "control": "log",
+      "principle": "Accountability and traceability",
+      "principle_source": "OECD/LEGAL/0449 principle 1.5(b): AI actors should ensure traceability of datasets, processes and decisions (non-binding)",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'; benchmark only: Regulation (EU) 2024/1689",
+      "provision": "Article 16(1)(4)-(5): a user can obtain explanations of results and information about the data on which the decision was made; Article 8(1): continuous control over the system; Law 94-V Article 22(1): measures against unauthorised access (the hash chain over the log); benchmark: Regulation (EU) 2024/1689 Article 12(1) (automatic event logs)",
+      "why_here": "Blinding hides fields from the model, so the log must record which fields were shown and withheld, the hash of the exact text the model saw, the raw reply and the outcome of every call, refusals and escalations included, so that a reviewer can reconstruct a decision without re-running the model."
+    },
+    {
+      "control": "escalate",
+      "principle": "Human oversight and determination",
+      "principle_source": "UNESCO Recommendation 2021, section III.2, principle 'Human oversight and determination' (non-binding); OECD/LEGAL/0449 principle 1.2(b) (capacity for human agency and oversight)",
+      "instrument": "Law of the Republic of Kazakhstan No. 230-VIII of 17 November 2025 'On Artificial Intelligence'; Law No. 94-V of 21 May 2013; benchmark only: Regulation (EU) 2016/679",
+      "provision": "Article 17(2)(2) of Law 230-VIII (medium autonomy: the system decides but a person can correct or cancel the decision; Article 17 was amended by Law No. 326-VIII of 24 June 2026, wording not read); Article 7(2) of Law 230-VIII (the person is informed about the automated processing and may object: applicant notices and objection record); Article 19-1(2)-(3) of Law 94-V (explain, allow objection, answer within three working days); benchmark: GDPR Article 22(1) and 22(3) (human intervention, contest the decision)",
+      "why_here": "The bare agent shortlists 356 of 400 and its 40-49 score row is the only one with both rejects (33) and shortlists (31), so cases in that band, unparseable replies and decisions that contradict their own score go to a person instead of being decided by a 3B model."
+    }
+  ]
+}
